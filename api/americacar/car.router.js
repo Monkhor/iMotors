@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const multer = require("multer");
 const path = require("path");
-const AppError = require("./../../utils/appError");
 const {
     findAll,
     create,
@@ -24,17 +23,15 @@ const upload = multer({
     fileFilter: function (req, file, cb) {
         if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
             req.fileValidationError = 'Only image files are allowed!';
-            return cb(new Error('Only image files are allowed!'), false);
+            // return cb(new Error('Only image files are allowed!'), false);
         }
         cb(null, true);
     }
 }).single("imageName");
 
-// router.get("/", findAll).post(upload, create);
 router.route('/').get(findAll).post(upload, create);
 router.post("/sell", sellCar);
 router.get("/getZarlaga/:id", getZarlaga);
-// router.post("/", upload, create);
 router.post("/editCar", editCar);
 router.post("/zarlaga", zarlaga);
 router.get("/deleteCar/:id", deleteCar);
