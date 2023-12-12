@@ -4,7 +4,7 @@ module.exports = {
     find: (callBack) => {
         try {
             pool.query(
-                `SELECT idt,price,address,time,allPrice,baritsaa,dateTime,imageName,userPhone,userName,id,
+                `SELECT idt,price,address,time,allPrice,baritsaa,date,imageName,userPhone,userName,id,
                 CASE WHEN imageName != '' THEN CONCAT('http://128.199.78.191:3000/upload/',imageName) ELSE '' END AS imageName
                 FROM trent_house`,
                 (error, results, fields) => {
@@ -21,7 +21,7 @@ module.exports = {
     editTurees: (data, callBack) => {
         try {
             pool.query(
-                `UPDATE trent_house SET price= ?,address= ?,time = ?,allPrice = ?,baritsaa=?,dateTime=?,userPhone=?,userName=?,id=?
+                `UPDATE trent_house SET price= ?,address= ?,time = ?,allPrice = ?,baritsaa=?,date=?,userPhone=?,userName=?,id=?
                 WHERE idt = ?`,
                 [data.price, data.address, data.time, data.allPrice, data.baritsaa, data.dateTime, data.userPhone, data.userName, data.id, data.idt]
                 ,
@@ -42,7 +42,7 @@ module.exports = {
             console.log(data)
             pool.query(
                 `INSERT INTO trent_house
-                (price,address,time,allPrice,baritsaa,dateTime,imageName ,userPhone ,userName,id)
+                (price,address,time,allPrice,baritsaa,date,imageName ,userPhone ,userName,id)
                 VALUES(?,?,?,?,?,?,?,?,?,?)`, [
                 data.price,
                 data.address,
