@@ -5,13 +5,13 @@ module.exports = {
         try {
             pool.query(
                 `SELECT idt,price,address,time,allPrice,baritsaa,dateTime,imageName,userPhone,userName,id,
-                CASE WHEN imageName != '' THEN CONCAT('http://192.168.1.2:3000/upload/',imageName) ELSE '' END AS imageName
+                CASE WHEN imageName != '' THEN CONCAT('http://128.199.78.191:3000/upload/',imageName) ELSE '' END AS imageName
                 FROM trent_house`,
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                      return  callBack(error);
                     }
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -56,9 +56,9 @@ module.exports = {
                 data.id
             ], (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                   return callBack(error);
                 }
-                return callBack(null, results);
+                callBack(null, results);
             }
             );
         } catch (error) {

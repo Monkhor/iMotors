@@ -16,7 +16,7 @@ module.exports = {
                 a.moneyTypeSell,
                 a.sellTime,
                 a.id,
-                CASE WHEN a.imageName != '' THEN  CONCAT('http://192.168.1.2:3000/upload/car/',a.imageName) ELSE '' END AS imageName,
+                CASE WHEN a.imageName != '' THEN  CONCAT('http://128.199.78.191:3000/upload/car/',a.imageName) ELSE '' END AS imageName,
                 SUM(CASE WHEN z.moneyType = 'Dollar' THEN z.price ELSE 0 END) AS priceCountDollar,
                 SUM(CASE WHEN z.moneyType = 'Төгрөг' THEN z.price ELSE 0 END) AS priceCountTogrog
             FROM

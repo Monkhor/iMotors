@@ -43,7 +43,6 @@ module.exports = {
           message: 'Өгөгдлийн сантай холбогдсонгүй !'
         })
       }
-      data.password = undefined
       return res.status(200).json({
         status: 1,
         message: "Амжилттай бүртгүүллээ"

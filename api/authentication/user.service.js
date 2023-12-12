@@ -27,8 +27,8 @@ module.exports = {
   },
   create: (data, callBack) => {
     pool.query(
-      `insert into User(name, role, phone, password) 
-                values(?,?,?,?)`,
+      `INSERT INTO  User(name, role, phone, password) 
+                VALUES(?,?,?,?)`,
       [
         data.name,
         data.role,
@@ -37,9 +37,9 @@ module.exports = {
       ],
       (error, results, fields) => {
         if (error) {
-          callBack(error);
+         return callBack(error);
         }
-        return callBack(null, results);
+        callBack(null, results);
       }
     );
   },
