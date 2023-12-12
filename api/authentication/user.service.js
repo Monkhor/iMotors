@@ -7,9 +7,9 @@ module.exports = {
       [],
       (error, results) => {
         if (error) {
-          callBack(error);
+          return callBack(error);
         }
-        return callBack(null, results);
+        callBack(null, results);
       }
     );
   },
@@ -19,9 +19,9 @@ module.exports = {
       [name],
       (error, results, fields) => {
         if (error) {
-          callBack(error);
+          return callBack(error);
         }
-        return callBack(null, results[0]);
+        callBack(null, results[0]);
       }
     );
   },
@@ -37,7 +37,7 @@ module.exports = {
       ],
       (error, results, fields) => {
         if (error) {
-         return callBack(error);
+          return callBack(error);
         }
         callBack(null, results);
       }
@@ -49,9 +49,9 @@ module.exports = {
       [id],
       (error, results, fields) => {
         if (error) {
-          callBack(error);
+          return callBack(error);
         }
-        return callBack(null, results[0]);
+        callBack(null, results[0]);
       }
     );
   },
@@ -69,9 +69,9 @@ module.exports = {
       ],
       (error, results, fields) => {
         if (error) {
-          callBack(error);
+          return callBack(error);
         }
-        return callBack(null, results[0]);
+        callBack(null, results[0]);
       }
     );
   },
@@ -81,9 +81,9 @@ module.exports = {
       [data.id],
       (error, results, fields) => {
         if (error) {
-          callBack(error);
+          return callBack(error);
         }
-        return callBack(null, results[0]);
+        callBack(null, results[0]);
       }
     );
   }

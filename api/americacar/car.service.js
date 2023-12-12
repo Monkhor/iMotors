@@ -28,9 +28,9 @@ module.exports = {
             `,
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                        return callBack(error);
                     }
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -47,9 +47,9 @@ module.exports = {
                 ,
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                        return callBack(error);
                     }
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -65,10 +65,9 @@ module.exports = {
                 ,
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                        return callBack(error);
                     }
-                    console.log(results);
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -94,9 +93,9 @@ module.exports = {
                 data.id
             ], (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
-                return callBack(null, results);
+                callBack(null, results);
             }
             );
         } catch (error) {
@@ -116,9 +115,9 @@ module.exports = {
                 data.ida
             ], (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
-                return callBack(null, results);
+                callBack(null, results);
             }
             );
         } catch (error) {
@@ -132,9 +131,9 @@ module.exports = {
                 [id],
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                        return callBack(error);
                     }
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -150,9 +149,9 @@ module.exports = {
                 [id],
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                        return callBack(error);
                     }
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {

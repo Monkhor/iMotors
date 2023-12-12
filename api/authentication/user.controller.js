@@ -1,13 +1,10 @@
 const {
   create,
-  getUserByUserId,
   getUsers,
-  updateUser,
   deleteUser,
   getUserByUserName
 } = require('./user.service')
 const { hashSync, genSaltSync, compareSync } = require('bcrypt')
-// const { sign } = require('jsonwebtoken')
 
 module.exports = {
   getUsers: (req, res) => {
@@ -67,9 +64,6 @@ module.exports = {
       }
       const result = compareSync(body.password, data.password)
       if (result) {
-        // const jsontoken = sign({ result: data }, 'qwe1234', {
-        //   expiresIn: '24h'
-        // })
         data.password = undefined
         return res.json({
           status: 1,
@@ -80,7 +74,6 @@ module.exports = {
             password: data.password,
             phone: data.phone,
             role: data.role
-            // token: jsontoken
           }
         })
       } else {
@@ -89,41 +82,6 @@ module.exports = {
           message: 'Нууц үг буруу!'
         })
       }
-    })
-  },
-
-  getUserByUserId: (req, res) => {
-    const id = req.params.id
-    getUserByUserId(id, (err, results) => {
-      if (err) {
-        return
-      }
-      if (!results) {
-        return res.json({
-          status: 0,
-          message: 'Record not Found'
-        })
-      }
-      results.password = undefined
-      return res.json({
-        status: 1,
-        data: results
-      })
-    })
-  },
-
-  updateUsers: (req, res) => {
-    const body = req.body
-    const salt = genSaltSync(10)
-    body.password = hashSync(body.password, salt)
-    updateUser(body, (err, results) => {
-      if (err) {
-        return
-      }
-      return res.json({
-        status: 1,
-        message: 'updated statusfully'
-      })
     })
   },
   deleteUser: (req, res) => {
