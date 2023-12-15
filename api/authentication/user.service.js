@@ -26,7 +26,6 @@ module.exports = {
     );
   },
   create: (data, callBack) => {
-console.log(data);
     pool.query(
       `INSERT INTO user(name, role, phone, password) VALUES(?,?,?,?);`,
       [data.name, data.role,data.phone,data.password],

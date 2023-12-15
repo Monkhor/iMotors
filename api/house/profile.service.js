@@ -7,9 +7,9 @@ module.exports = {
                 `SELECT idt,price,address,time,allPrice,baritsaa,date,imageName,userPhone,userName,id,
                 CASE WHEN imageName != '' THEN CONCAT('http://128.199.78.191:3000/upload/',imageName) ELSE '' END AS imageName
                 FROM trent_house`,
-                (error, results, fields) => {
+                (error, results) => {
                     if (error) {
-                      return  callBack(error);
+                        return callBack(error);
                     }
                     callBack(null, results);
                 }
@@ -19,18 +19,16 @@ module.exports = {
         }
     },
     editTurees: (data, callBack) => {
-console.log(data);
         try {
             pool.query(
                 `UPDATE trent_house SET price= ?,address= ?,time = ?,allPrice = ?,baritsaa=?,date=?,userPhone=?,userName=?,id=?
                 WHERE idt = ?`,
                 [data.price, data.address, data.time, data.allPrice, data.baritsaa, data.dateTime, data.userPhone, data.userName, data.id, data.idt]
                 ,
-                (error, results, fields) => {
+                (error, results) => {
                     if (error) {
-                      return  callBack(error);
+                        return callBack(error);
                     }
-                    console.log(results);
                     callBack(null, results);
                 }
             );
@@ -40,7 +38,6 @@ console.log(data);
     },
     create: (data, callBack) => {
         try {
-            console.log(data)
             pool.query(
                 `INSERT INTO trent_house
                 (price,address,time,allPrice,baritsaa,date,imageName ,userPhone ,userName,id)
@@ -55,9 +52,9 @@ console.log(data);
                 data.userPhone,
                 data.userName,
                 data.id
-            ], (error, results, fields) => {
+            ], (error, results) => {
                 if (error) {
-                   return callBack(error);
+                    return callBack(error);
                 }
                 callBack(null, results);
             }
@@ -68,16 +65,32 @@ console.log(data);
     },
     deleteTurees: (id, callBack) => {
         try {
-            console.log(id)
             pool.query(
                 `DELETE FROM trent_house
                  WHERE idt = ?;`,
                 [id],
-                (error, results, fields) => {
+                (error, results) => {
                     if (error) {
-                      return  callBack(error);
+                        return callBack(error);
                     }
-                     callBack(null, results);
+                    callBack(null, results);
+                }
+            );
+        } catch (error) {
+            return callBack(error)
+        }
+    },
+    getByIdHouse: (id, callBack) => {
+        try {
+            pool.query(
+                `SELECT imageName FROM trent_house
+                 WHERE idt = ?;`,
+                [id],
+                (error, results) => {
+                    if (error) {
+                        return callBack(error);
+                    }
+                    callBack(null, results);
                 }
             );
         } catch (error) {

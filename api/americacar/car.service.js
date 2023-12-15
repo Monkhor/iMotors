@@ -38,7 +38,6 @@ module.exports = {
         }
     },
     editCar: (data, callBack) => {
-        console.log(data)
         try {
             pool.query(
                 `UPDATE america_car SET buyTime = ?, price = ?,carMark = ?,moneyType = ?
@@ -76,7 +75,6 @@ module.exports = {
     },
     create: (data, callBack) => {
         try {
-            console.log(data);
             pool.query(
                 `INSERT INTO america_car
                 (price,carMark,moneyType,buyTime,imageName,type,priceSell,moneyTypeSell,sellTime,id)
@@ -142,9 +140,25 @@ module.exports = {
     },
     deleteCar: (id, callBack) => {
         try {
-            console.log(id)
             pool.query(
                 `DELETE FROM america_car
+                 WHERE ida = ?;`,
+                [id],
+                (error, results, fields) => {
+                    if (error) {
+                        return callBack(error);
+                    }
+                    callBack(null, results);
+                }
+            );
+        } catch (error) {
+            return callBack(error)
+        }
+    },
+    getByIdCar: (id, callBack) => {
+        try {
+            pool.query(
+                `SELECT imageName FROM america_car
                  WHERE ida = ?;`,
                 [id],
                 (error, results, fields) => {
