@@ -15,7 +15,7 @@ module.exports = {
   },
   getUserByUserName: (name, callBack) => {
     pool.query(
-      `SELECT * FROM User WHERE name = ?`,
+      `SELECT * FROM user WHERE name = ?`,
       [name],
       (error, results, fields) => {
         if (error) {
@@ -26,15 +26,10 @@ module.exports = {
     );
   },
   create: (data, callBack) => {
+console.log(data);
     pool.query(
-      `INSERT INTO  User(name, role, phone, password) 
-                VALUES(?,?,?,?)`,
-      [
-        data.name,
-        data.role,
-        data.phone,
-        data.password
-      ],
+      `INSERT INTO user(name, role, phone, password) VALUES(?,?,?,?);`,
+      [data.name, data.role,data.phone,data.password],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -45,7 +40,7 @@ module.exports = {
   },
   getUserByUserId: (id, callBack) => {
     pool.query(
-      `select * from User where id = ?`,
+      `select * from user where id = ?`,
       [id],
       (error, results, fields) => {
         if (error) {
@@ -77,7 +72,7 @@ module.exports = {
   },
   deleteUser: (data, callBack) => {
     pool.query(
-      `delete from User where id = ?`,
+      `delete from user where id = ?`,
       [data.id],
       (error, results, fields) => {
         if (error) {

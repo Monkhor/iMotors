@@ -19,6 +19,7 @@ module.exports = {
         }
     },
     editTurees: (data, callBack) => {
+console.log(data);
         try {
             pool.query(
                 `UPDATE trent_house SET price= ?,address= ?,time = ?,allPrice = ?,baritsaa=?,date=?,userPhone=?,userName=?,id=?
@@ -27,10 +28,10 @@ module.exports = {
                 ,
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                      return  callBack(error);
                     }
                     console.log(results);
-                    return callBack(null, results);
+                    callBack(null, results);
                 }
             );
         } catch (error) {
@@ -74,9 +75,9 @@ module.exports = {
                 [id],
                 (error, results, fields) => {
                     if (error) {
-                        callBack(error);
+                      return  callBack(error);
                     }
-                    return callBack(null, results);
+                     callBack(null, results);
                 }
             );
         } catch (error) {
