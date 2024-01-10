@@ -524,7 +524,8 @@ module.exports = {
                 const lastMonthData = result[0];
                 const monthPrice = data.paymentPrice + lastMonthData.underpayment;
                 if (monthPrice < 0) {
-                    var sendMonthData = { monthDate: lastMonthData.monthDate, underpayment: monthPrice, paymentDate: data.paymentDate, price: data.price, type: 1, houseMonthId: lastMonthData.houseMonthId };
+                    const otpPrice = lastMonthData.price + data.paymentPrice;
+                    var sendMonthData = { monthDate: lastMonthData.monthDate, underpayment: monthPrice, paymentDate: data.paymentDate, price: otpPrice, type: 1, houseMonthId: lastMonthData.houseMonthId };
                     editMonth(sendMonthData, (err) => {
                         if (err) {
                             console.log(err);
@@ -631,7 +632,6 @@ module.exports = {
     editMonth: (req, res) => {
         try {
             var data = req.body;
-            console.log(data);
             editMonth(data, (err) => {
                 if (err) {
                     return res.json({
