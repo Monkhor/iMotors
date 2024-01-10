@@ -266,8 +266,8 @@ module.exports = {
     editMonth: (data, callBack) => {
         try {
             pool.query(
-                `UPDATE house_month SET monthDate  = ?, underPayment = ?, paymentDate = ?, price = ?, type = ? WHERE houseMonthId = ?`,
-                [data.monthDate, data.underPayment, data.paymentDate, data.price, data.type, data.houseMonthId],
+                `UPDATE house_month SET monthDate  = ?, underpayment = ?, paymentDate = ?, price = ?, type = ? WHERE houseMonthId = ?`,
+                [data.monthDate, data.underpayment, data.paymentDate, data.price, data.type, data.houseMonthId],
                 (error, results) => {
                     if (error) {
                         return callBack(error);
