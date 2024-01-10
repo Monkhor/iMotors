@@ -4,8 +4,8 @@ const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     port: 3306,
-    password: "Nyamka2416@",
-    database: "i_motors"
+    password: "root",
+    database: "motors"
 });
 connection.connect((error) => {
     if (error) {

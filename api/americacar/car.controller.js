@@ -5,7 +5,8 @@ const {
     sellCar,
     zarlaga,
     getZarlaga,
-    deleteCar
+    deleteCar,
+    uploadImage
 } = require("./car.service");
 
 module.exports = {
@@ -15,8 +16,7 @@ module.exports = {
                 if (err) {
                     return res.json({
                         status: 0,
-                        message: "error!",
-                        data: null
+                        message: "error!"
                     })
                 }
                 return res.status(200).json({
@@ -59,9 +59,48 @@ module.exports = {
     create: (req, res) => {
         try {
             var data = req.body;
-            if (req.file)
-                data["imageName"] = req.file.filename;
-            create(data, (err, results) => {
+            var imageNames = req.files.map(file => file.filename);
+            create(data, (err, resultsIda) => {
+                if (err) {
+                    return res.json({
+                        status: 0,
+                        message: "DB error!"
+                    })
+                }
+                if (req.file && req.files.length < 2) {
+                    data["imageName"] = req.file.filename;
+                    var imageData = { imageName: data.imageName, ida: resultsIda };
+                    uploadImage(imageData, (err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                } else {
+                    for (let i = 0; i < req.files.length; i++) {
+                        var imageData = { imageName: imageNames[i], ida: resultsIda };
+                        uploadImage(imageData, (err) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        })
+                    }
+                }
+                return res.status(200).json({
+                    status: 1,
+                    message: "Амжилттай бүртгэлээ"
+                })
+            })
+        } catch (e) {
+            return res.status(500).json({
+                status: 0,
+                message: "Алдаа DB!"
+            });
+        }
+    },
+    createNoImage: (req, res) => {
+        try {
+            var data = req.body;
+            create(data, (err) => {
                 if (err) {
                     return res.json({
                         status: 0,

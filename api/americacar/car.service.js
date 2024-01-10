@@ -5,29 +5,31 @@ module.exports = {
         try {
             pool.query(`
             SELECT
-                a.ida,
-                a.price,
-                a.carMark,
-                a.moneyType,
-                a.buyTime,
-                a.imageName,
-                a.type,
-                a.priceSell,
-                a.moneyTypeSell,
-                a.sellTime,
-                a.id,
-                CASE WHEN a.imageName != '' THEN  CONCAT('http://128.199.78.191:3000/upload/car/',a.imageName) ELSE '' END AS imageName,
-                SUM(CASE WHEN z.moneyType = 'Dollar' THEN z.price ELSE 0 END) AS priceCountDollar,
-                SUM(CASE WHEN z.moneyType = 'Төгрөг' THEN z.price ELSE 0 END) AS priceCountTogrog
+                A.ida,
+                A.price,
+                A.carMark,
+                A.moneyType,
+                A.buyTime,
+                A.type,
+                A.priceSell,
+                A.moneyTypeSell,
+                A.sellTime,
+                A.id,
+                GROUP_CONCAT(
+                    CASE WHEN C.imageName IS NOT NULL THEN CONCAT('http://103.41.112.98:3000/upload/car/', C.imageName) ELSE '' END
+                ) AS imageNames,
+                SUM(CASE WHEN B.moneyType = 'Dollar' THEN B.price ELSE 0 END) AS priceCountDollar,
+                SUM(CASE WHEN B.moneyType = 'Төгрөг' THEN B.price ELSE 0 END) AS priceCountTogrog
             FROM
-                america_car AS a
+                america_car AS A
             LEFT JOIN
-                america_car_zardal AS z ON a.ida = z.ida
+                america_car_zardal AS B ON A.ida = B.ida
+                LEFT JOIN car_image AS C ON C.ida = A.ida
             GROUP BY
-                a.ida, a.price, a.carMark, a.moneyType, a.buyTime, a.imageName, a.type, a.priceSell, a.moneyTypeSell, a.sellTime, a.id;
-            `,
+                A.ida, A.price, A.carMark, A.moneyType, A.buyTime, A.type, A.priceSell, A.moneyTypeSell, A.sellTime, A.id`,
                 (error, results, fields) => {
                     if (error) {
+                        console.log(error);
                         return callBack(error);
                     }
                     callBack(null, results);
@@ -77,13 +79,12 @@ module.exports = {
         try {
             pool.query(
                 `INSERT INTO america_car
-                (price,carMark,moneyType,buyTime,imageName,type,priceSell,moneyTypeSell,sellTime,id)
-                VALUES(?,?,?,?,?,?,?,?,?,?)`, [
+                (price,carMark,moneyType,buyTime,type,priceSell,moneyTypeSell,sellTime,id)
+                VALUES(?,?,?,?,?,?,?,?,?)`, [
                 data.price,
                 data.carMark,
                 data.moneyType,
                 data.buyTime,
-                data.imageName,
                 data.type,
                 data.priceSell,
                 data.moneyTypeSell,
@@ -93,7 +94,7 @@ module.exports = {
                 if (error) {
                     return callBack(error);
                 }
-                callBack(null, results);
+                callBack(null, results.insertId);
             }
             );
         } catch (error) {
@@ -156,11 +157,24 @@ module.exports = {
         }
     },
     getByIdCar: (id, callBack) => {
+        pool.query(
+            `SELECT imageName FROM car_image WHERE ida = ?;`,
+            [id],
+            (error, results) => {
+                if (error) {
+                    console.error("Error executing query:", error);
+                    return callBack && callBack(error);
+                }
+                callBack && callBack(null, results);
+            }
+        );
+    },
+    uploadImage: (data, callBack) => {
         try {
             pool.query(
-                `SELECT imageName FROM america_car
-                 WHERE ida = ?;`,
-                [id],
+                `INSERT INTO car_image(imageName,ida) VALUES(?,?)`,
+                [data.imageName,
+                data.ida],
                 (error, results, fields) => {
                     if (error) {
                         return callBack(error);
@@ -169,7 +183,7 @@ module.exports = {
                 }
             );
         } catch (error) {
-            return callBack(error)
+            return callBack(error);
         }
-    }
+    },
 };
