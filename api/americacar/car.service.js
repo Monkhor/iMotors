@@ -15,16 +15,16 @@ module.exports = {
                 A.moneyTypeSell,
                 A.sellTime,
                 A.id,
-                GROUP_CONCAT(
+                (SELECT GROUP_CONCAT(
                     CASE WHEN C.imageName IS NOT NULL THEN CONCAT('http://103.41.112.98:3000/upload/car/', C.imageName) ELSE '' END
-                ) AS imageNames,
+                )
+            FROM car_image AS C WHERE C.ida = A.ida) AS imageNames,
                 SUM(CASE WHEN B.moneyType = 'Dollar' THEN B.price ELSE 0 END) AS priceCountDollar,
                 SUM(CASE WHEN B.moneyType = 'Төгрөг' THEN B.price ELSE 0 END) AS priceCountTogrog
             FROM
                 america_car AS A
             LEFT JOIN
                 america_car_zardal AS B ON A.ida = B.ida
-                LEFT JOIN car_image AS C ON C.ida = A.ida
             GROUP BY
                 A.ida, A.price, A.carMark, A.moneyType, A.buyTime, A.type, A.priceSell, A.moneyTypeSell, A.sellTime, A.id`,
                 (error, results, fields) => {

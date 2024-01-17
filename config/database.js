@@ -1,18 +1,19 @@
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    port: 3306,
-    password: "root",
-    database: "motors"
-});
-connection.connect((error) => {
-    if (error) {
-        console.error('MySQL тэй холбогдсонгүй үндсэн хэсэг:', error);
-    } else {
-        console.log('MySQL тэй холбогдлоо');
-    }
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  port: 3306,
+  password: "Nyamka2416@",
+  database: "motors",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-module.exports = connection;
+pool.promise().query("SELECT 1")
+  .then(() => console.log('MySQL connected'))
+  .catch(err => console.error('MySQL connection error:', err));
+
+module.exports = pool;
+
